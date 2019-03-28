@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div id="title">
+            <h1>Spring WebFlux + Server Sent Events</h1>
+        </div>
+
+        <table id="comments" class="table table-striped">
+            <thead>
+            <tr>
+                <th width="10%">Author</th>
+                <th width="60%">Message</th>
+                <th width="30%">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="result" data-th-each="comment : ${comments}">
+                <td>[[${comment.author}]]</td>
+                <td>[[${comment.message}]]</td>
+                <td>[[${comment.timestamp}]]</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+   
+
+</div>
+
+<script>
+var source = new EventSource("/api/v1/blog/save");
+source.addEventListener('message', function (e) {
+    console.log('New message is received');
+    const index = JSON.parse(e.data);
+    console.log(index)
+    
+}, false);
+</script>
+
+</body>
+
+</html>
